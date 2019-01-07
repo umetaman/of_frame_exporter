@@ -1,4 +1,6 @@
 #include "ofApp.h"
+
+//static const int ballNum = 100でもよい。
 #define BALL_NUM 100
 
 ofColor colors[BALL_NUM];
@@ -6,6 +8,7 @@ ofVec2f position[BALL_NUM];
 float r[BALL_NUM];
 ofVec2f add_v[BALL_NUM];
 
+//画像を記録する領域
 ofImage frame;
 
 //--------------------------------------------------------------
@@ -14,15 +17,20 @@ void ofApp::setup(){
 	for (int i = 0; i < BALL_NUM; i++) {
 		colors[i] = ofColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
 		r[i] = ofRandom(20, 50);
-		position[i] = ofVec2f(ofRandom(0 + r[i], WIDTH - r[i]), ofRandom(0 + r[i], HEIGHT - r[i]));
+		position[i] = ofVec2f(ofRandom(0 + r[i], ofGetWidth() - r[i]), ofRandom(0 + r[i], ofGetHeight() - r[i]));
 		add_v[i] = ofVec2f(ofRandom(-3, 3), ofRandom(-3, 3));
 	}
+
+	//============================================
+
+	//フレームレートを30fpsに固定する
+	ofSetFrameRate(30);
 
 	//垂直同期を有効に -> フレーム落ちを防ぐ
 	ofSetVerticalSync(true);
 
 	//フレームの画像を保存するバッファの確保
-	frame.allocate(WIDTH, HEIGHT, OF_IMAGE_COLOR_ALPHA);
+	frame.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
 }
 
 //--------------------------------------------------------------
@@ -43,7 +51,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	//サンプルアニメーションの描画
+	//サンプルアニメーションの描画（自分のアニメーションのプログラムを書く）
 	for (int i = 0; i < BALL_NUM; i++) {
 		ofSetColor(colors[i]);
 		ofDrawCircle(position[i], r[i]);
